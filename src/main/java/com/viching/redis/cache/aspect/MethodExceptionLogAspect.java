@@ -18,15 +18,15 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Order(1)
 @Component
-public class MethodLogAspect {
+public class MethodExceptionLogAspect {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Pointcut("execution(public * *(..))")
-    public void log() {
+    @Pointcut("@annotation(com.viching.redis.cache.annotation.GatherExceptionLog)")
+    public void exceptionLog() {
     }
     
-    @AfterThrowing(pointcut = "log()", throwing="throwable")
+    @AfterThrowing(pointcut = "exceptionLog()", throwing="throwable")
     public void throwException(Throwable throwable){
         logger.debug(">>> throwable.getMessage(): "+throwable.getMessage());
         logger.debug(">>> throwable.getStackTrace(): "+throwable.getStackTrace());
