@@ -2,6 +2,7 @@ package com.viching.redis.cache;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
@@ -22,13 +23,13 @@ import com.viching.redis.cache.util.RedisObjectSerializer;
  */
 @Configuration
 @ConditionalOnClass({ RedisProperties.class })
+@EnableConfigurationProperties(RedisProperties.class)
 public class JedisClusterConfig {
-    
+
     //自动注入redis配置属性文件
     @Autowired
     private RedisProperties redisProperties;
 
-    
     @Bean
     public JedisConnectionFactory jedisConnectionFactory() {
         RedisClusterConfiguration config = new RedisClusterConfiguration(redisProperties.getCluster().getNodes());
@@ -36,7 +37,7 @@ public class JedisClusterConfig {
         config.setPassword(RedisPassword.of(redisProperties.getPassword()));
         return new JedisConnectionFactory(config);
     }
- 
+
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();

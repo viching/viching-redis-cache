@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface GatherExceptionLog {
+public @interface GatherLog {
     
     boolean value() default false; //是否存入数据库
     
